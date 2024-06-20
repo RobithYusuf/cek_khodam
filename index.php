@@ -29,6 +29,7 @@
         </div>
     </div>
 
+    <!-- harap tetap menyertakan pembuat -->
     <footer>
         <div class="footer-content">
             <span class="created-by">Created by:</span>
