@@ -5,6 +5,21 @@ function generateKhodamName() {
   var notificationElement = document.getElementById("notification");
 
   if (name.trim() === "") {
+    notificationElement.textContent = "Harap masukkan nama Anda.";
+    notificationElement.style.display = "block";
+    document.getElementById("result").style.display = "none";
+    return;
+  }
+
+  if (name.trim().length < 3) {
+    notificationElement.textContent =  "Nama anda terlalu pendek untuk dicarikan khodam (minimal 3 huruf).";
+    notificationElement.style.display = "block";
+    document.getElementById("result").style.display = "none";
+    return;
+  }
+
+  if (/\d/.test(name)) {
+    notificationElement.textContent = "Anda tidak bisa mamasukkan angka.";
     notificationElement.style.display = "block";
     document.getElementById("result").style.display = "none";
     return;
@@ -90,73 +105,173 @@ function generateKhodamName() {
     "Burung Merpati",
     "Burung Pelikan",
     "Burung Nuri",
+    "Komodo Perkasa",
+    "Orangutan Bijak",
+    "Rusa Emas",
+    "Babi Hutan Garang",
+    "Banteng Liar",
+    "Buaya Putih",
+    "Berang-berang Cerdas",
+    "Landak Jawa",
+    "Musang Ajaib",
+    "Trenggiling Langka",
+    "Kukang Lucu",
+    "Tarsius Gesit",
+    "Macan Tutul",
+    "Kucing Hutan",
+    "Ajag Kalimantan",
+    "Rusa Timor",
+    "Kancil Cerdik",
+    "Bekantan Pemalu",
+    "Kukabura Cerewet",
+    "Angsa Hitam",
+    "Merpati Pos",
+    "Jalak Bali",
+    "Elang Jawa",
+    "Merak Hijau",
+    "Kuau Kerdil",
+    "Sempidan Biru",
+    "Trulek Ekor Pita",
+    "Pelatuk Jambul",
+    "Rangkong Badak",
+    "Kakatua Jambul Kuning",
+    "Nuri Kepala Hitam",
+    "Betet Biasa",
+    "Gelatik Jawa",
+    "Madu Kelapa",
+    "Kuntul Kerbau",
+    "Bangau Tongtong",
+    "Ikan Belida",
+    "Ikan Pesut",
+    "Lumba-lumba Hidung Botol",
+    "Hiu Martil",
+    "Pari Manta",
+    "Kura-kura Belimbing",
+    "Penyu Sisik",
+    "Buaya Muara",
+    "Biawak Komodo",
+    "Bunglon Raksasa",
+    "Tokek Pohon",
+    "Ular Sanca Kembang",
+    "Ular Welang",
+    "Berudu Sakti",
+    "Katak Pohon",
+    "Bangkong Raksasa",
+    "Kodok Buduk",
     "Kosong",
   ];
 
   if (khodamData.hasOwnProperty(name)) {
     var khodamName = khodamData[name].khodamName;
     var khodamDescription = khodamData[name].khodamDescription;
+    displayResult(name, khodamName, khodamDescription);
   } else {
-    var randomIndex = Math.floor(Math.random() * khodamNames.length);
-    var khodamName = khodamNames[randomIndex];
+    var randomNumber = Math.random();
 
-    if (khodamName === "Kosong") {
-      var khodamDescription = "Maaf, sepertinya Anda belum memiliki khodam. Jangan sedih, mungkin khodam Anda masih dalam perjalanan menuju Anda.";
+    if (randomNumber < 0.1) {
+      var khodamName = "Kosong";
+      showFakeLoadingForEmptyKhodam(name);
     } else {
-      var promptText =
-        "Jelaskan khodam " +
-        khodamName +
-        " dalam Bahasa indonesia hanya 15 kata saja menggunakan lelucon dan berikan arti yang terlihat meyakinkan dengan mengaitkannya pada karakteristik hewan atau makhluk  dari nama " +
-        name +
-        ", contohnya jika khodamnya adalah Khodam kadal sakti maka contoh jawabanya kamu suka bersembunyi dengan cepat dan lincah memikat hati wanita.";
-
-      Swal.fire({
-        title: "Mohon Tunggu...",
-        html: "Meminta bantuan dari alam gaib untuk mencari informasi tentang khodam Anda...",
-        allowOutsideClick: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
-        },
+      var filteredKhodamNames = khodamNames.filter(function (name) {
+        return name !== "Kosong";
       });
 
-      axios
-        .post(
-          "https://api.groq.com/openai/v1/chat/completions",
-          {
-            messages: [
-              {
-                role: "user",
-                content: promptText,
-              },
-            ],
-            model: "mixtral-8x7b-32768",
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer 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",
-            },
-          }
-        )
-        .then(function (response) {
-          var khodamDescription = response.data.choices[0].message.content.trim();
-          khodamData[name] = {
-            khodamName: khodamName,
-            khodamDescription: khodamDescription,
-          };
-          document.getElementById("khodam-description").textContent = khodamDescription;
-          document.getElementById("result").style.display = "block";
-          Swal.close();
-        })
-        .catch(function (error) {
-          console.log(error);
-          Swal.fire("Oops...", "Terjadi kesalahan saat meminta bantuan dari alam gaib. Silakan coba lagi nanti.", "error");
-        });
+      var randomIndex = Math.floor(Math.random() * filteredKhodamNames.length);
+      var khodamName = filteredKhodamNames[randomIndex];
+
+      generateKhodamDescription(name, khodamName);
     }
   }
+}
 
+function showFakeLoadingForEmptyKhodam(name) {
+  var emptyKhodamDescriptions = [
+    "Wah, sepertinya khodam Anda sedang liburan di dimensi lain. Mungkin sedang selfie dengan hantu lokal!",
+    "Hmm, khodam Anda tampaknya masih dalam proses pengiriman spiritual. Mungkin terjebak macet di jalan raya alam gaib.",
+    "Khodam Anda saat ini masih dalam tahap pelatihan di akademi makhluk halus. Sabar ya, nanti juga lulus kok!",
+    "Ups! Khodam Anda sepertinya tersesat di labirin astral. Tenang, GPS gaib sedang menuntunnya ke Anda.",
+    "Khodam Anda sedang dalam perjalanan spiritual, mencari pencerahan di gunung mistis. semoga cepat kembali!",
+    "Sepertinya khodam Anda masih malu-malu. Mungkin Anda perlu menyiapkan kue dan teh untuk menyambutnya?",
+    "Khodam Anda sedang antri di kantor urusan makhluk gaib. Birokrasi di alam astral ternyata tidak jauh beda!",
+    "Anda terlalu unik! Para khodam masih bingung memilih siapa yang cocok. Sabar, ya, casting khodam butuh waktu.",
+    "Khodam Anda masih dalam proses kloning di lab gaib. Tenang, mereka sedang berusaha membuat yang terbaik untuk Anda!",
+    "Anda tidak memiliki khodam, Khodam Anda masih dalam perjalanan ghaib menuju Anda",
+  ];
+
+  Swal.fire({
+    title: "Mohon Tunggu...",
+    html: "Meminta bantuan dari alam gaib untuk mencari informasi tentang khodam Anda...",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+    timer: 2000,
+  }).then(() => {
+    var randomIndex = Math.floor(Math.random() * emptyKhodamDescriptions.length);
+    var khodamDescription = emptyKhodamDescriptions[randomIndex];
+    khodamData[name] = {
+      khodamName: "Kosong",
+      khodamDescription: khodamDescription,
+    };
+    displayResult(name, "Kosong", khodamDescription);
+  });
+}
+
+function generateKhodamDescription(name, khodamName) {
+  var promptText =
+    "Jelaskan khodam " +
+    khodamName +
+    " dalam Bahasa indonesia hanya 15 kata saja menggunakan lelucon dan berikan arti yang terlihat meyakinkan dengan mengaitkannya pada karakteristik hewan atau makhluk astral yang terkait dari nama " +
+    name +
+    ", contohnya jika khodamnya adalah Khodam kadal sakti maka contoh jawabanya kamu suka bersembunyi dengan cepat dan sangat lincah memikat hati wanita.";
+
+  Swal.fire({
+    title: "Mohon Tunggu...",
+    html: "Meminta bantuan dari alam gaib untuk mencari informasi tentang khodam Anda...",
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    },
+  });
+
+  axios
+    .post(
+      "https://api.groq.com/openai/v1/chat/completions",
+      {
+        messages: [
+          {
+            role: "user",
+            content: promptText,
+          },
+        ],
+        model: "mixtral-8x7b-32768",
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer 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",
+        },
+      }
+    )
+    .then(function (response) {
+      var khodamDescription = response.data.choices[0].message.content.trim();
+      khodamData[name] = {
+        khodamName: khodamName,
+        khodamDescription: khodamDescription,
+      };
+      displayResult(name, khodamName, khodamDescription);
+      Swal.close();
+    })
+    .catch(function (error) {
+      Swal.fire("Oops...", "Terjadi kesalahan saat meminta bantuan dari alam gaib. Silakan coba lagi nanti.", "error");
+    });
+}
+
+function displayResult(name, khodamName, khodamDescription) {
   document.getElementById("output-name").textContent = name;
   document.getElementById("khodam-name").textContent = khodamName;
   document.getElementById("khodam-description").textContent = khodamDescription;
+  document.getElementById("result").style.display = "block";
 }
