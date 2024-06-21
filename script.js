@@ -12,7 +12,7 @@ function generateKhodamName() {
   }
 
   if (name.trim().length < 3) {
-    notificationElement.textContent =  "Nama anda terlalu pendek untuk dicarikan khodam (minimal 3 huruf).";
+    notificationElement.textContent = "Nama anda terlalu pendek untuk dicarikan khodam (minimal 3 huruf).";
     notificationElement.style.display = "block";
     document.getElementById("result").style.display = "none";
     return;
