@@ -87,25 +87,25 @@
         <p>Temukan pelindung gaib Anda dengan bantuan AI</p>
     </header> -->
 
-    <main>
-        <div class="container">
-            <h2>Cek Khodam Anda</h2>
-            <div class="input-container">
-                <label for="name">Masukkan Nama Anda:</label>
-                <input type="text" id="name" placeholder="Nama Anda" pattern="[A-Za-z\s]+"
-                    title="Hanya huruf dan spasi yang diperbolehkan"
-                    oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').replace(/\b\w/g, char => char.toUpperCase());"
-                    required>
-                <div id="notification" class="notification">Harap masukkan nama Anda.</div>
-                <button onclick="generateKhodamName()">Terawang Khodam</button>
-            </div>
-            <div id="result" class="result" style="display: none;">
-                <p>Hai, <span id="output-name"></span></p>
-                <p>Hasil khodam anda: <span class="khodam-name" id="khodam-name"></span></p>
-                <div id="khodam-description" class="khodam-description"></div>
-            </div>
+
+    <div class="container">
+        <h2>Cek Khodam Anda</h2>
+        <div class="input-container">
+            <label for="name">Masukkan Nama Anda:</label>
+            <input type="text" id="name" placeholder="Nama Anda" pattern="[A-Za-z\s]+"
+                title="Hanya huruf dan spasi yang diperbolehkan"
+                oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').replace(/\b\w/g, char => char.toUpperCase());"
+                required>
+            <div id="notification" class="notification">Harap masukkan nama Anda.</div>
+            <button onclick="generateKhodamName()">Terawang Khodam</button>
         </div>
-    </main>
+        <div id="result" class="result" style="display: none;">
+            <p>Hai, <span id="output-name"></span></p>
+            <p>Hasil khodam anda: <span class="khodam-name" id="khodam-name"></span></p>
+            <div id="khodam-description" class="khodam-description"></div>
+        </div>
+    </div>
+
 
     <footer>
         <div class="footer-content">
