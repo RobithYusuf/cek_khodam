@@ -186,6 +186,7 @@ function generateKhodamName() {
 
 function showFakeLoadingForEmptyKhodam(name) {
   var emptyKhodamDescriptions = [
+   
     "Anda tidak memiliki khodam, Khodam Anda masih dalam perjalanan ghaib menuju Anda",
   ];
 
@@ -242,7 +243,7 @@ function generateKhodamDescription(name, khodamName) {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "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",
+          Authorization: "Bearer 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",
         },
       }
     )
