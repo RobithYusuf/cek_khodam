@@ -186,15 +186,6 @@ function generateKhodamName() {
 
 function showFakeLoadingForEmptyKhodam(name) {
   var emptyKhodamDescriptions = [
-    "Wah, sepertinya khodam Anda sedang liburan di dimensi lain. Mungkin sedang selfie dengan hantu lokal!",
-    "Hmm, khodam Anda tampaknya masih dalam proses pengiriman spiritual. Mungkin terjebak macet di jalan raya alam gaib.",
-    "Khodam Anda saat ini masih dalam tahap pelatihan di akademi makhluk halus. Sabar ya, nanti juga lulus kok!",
-    "Ups! Khodam Anda sepertinya tersesat di labirin astral. Tenang, GPS gaib sedang menuntunnya ke Anda.",
-    "Khodam Anda sedang dalam perjalanan spiritual, mencari pencerahan di gunung mistis. semoga cepat kembali!",
-    "Sepertinya khodam Anda masih malu-malu. Mungkin Anda perlu menyiapkan kue dan teh untuk menyambutnya?",
-    "Khodam Anda sedang antri di kantor urusan makhluk gaib. Birokrasi di alam astral ternyata tidak jauh beda!",
-    "Anda terlalu unik! Para khodam masih bingung memilih siapa yang cocok. Sabar, ya, casting khodam butuh waktu.",
-    "Khodam Anda masih dalam proses kloning di lab gaib. Tenang, mereka sedang berusaha membuat yang terbaik untuk Anda!",
     "Anda tidak memiliki khodam, Khodam Anda masih dalam perjalanan ghaib menuju Anda",
   ];
 
@@ -251,7 +242,7 @@ function generateKhodamDescription(name, khodamName) {
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer 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",
+          Authorization: "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",
         },
       }
     )
